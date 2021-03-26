@@ -3,13 +3,14 @@
 import pygame
 
 Shyryna, Dovzhyna = 14, 28
-TITLE = 30
-GAME_RES = Shyryna * TITLE, Dovzhyna * TITLE
+Klitynka = 25
+GAME_RES = Shyryna * Klitynka, Dovzhyna * Klitynka
 FPS = 60
+
 pygame.init()
 game_sc = pygame.display.set_mode(GAME_RES)
 clock = pygame.time.Clock()
-grid = [pygame.Rect(x * TITLE, y * TITLE, TITLE, TITLE) for x in range(Shyryna) for y in range (Dovzhyna)]
+grid = [pygame.Rect(x * Klitynka, y * Klitynka, Klitynka, Klitynka) for x in range(Shyryna) for y in range (Dovzhyna)]
 ################################################################################
 ###################################### NEW ######################################
 ### Создаем Координати фигур 
@@ -28,7 +29,7 @@ figures = [[pygame.Rect( x + Shyryna // 2, y + 1, 1, 1) for x, y in fig_pos] for
 ## Устанавлюєм первоначальну точку 
 # Rect(left, top, width, height)
 # Rect( Віступ вліво, Вершина фігури (точка), Товщина, Висота)
-figure_rect = pygame.Rect(0, 0, TITLE - 2, TITLE - 2)
+figure_rect = pygame.Rect(0, 0, Klitynka - 2, Klitynka - 2)
 ### Викликаємо Фігури які в нас є ( 7 штук )
 figure = figures[5]
 ###################################### NEW #####################################
@@ -45,8 +46,8 @@ while True:
     #draw_figure
     # Для кожного із кубіків фігури робимо наступні дії
     for i in range(4):
-        figure_rect.x = figure[i].x * TITLE
-        figure_rect.y = figure[i].y * TITLE
+        figure_rect.x = figure[i].x * Klitynka
+        figure_rect.y = figure[i].y * Klitynka
         pygame.draw.rect(game_sc, pygame.Color('blue'), figure_rect)
     ## Виклакаємо функцію малювання , ( задаємо розмір екрану, Встановлюємл колір фігур , Передаємо координати для малювання фігури )
     ###################################### NEW #####################################
