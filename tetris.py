@@ -10,7 +10,7 @@ FPS = 60
 kolir_polia = pygame.Color('orange')
 kolir_klitynky = pygame.Color('blue')
 
-figure_number = 5 
+figure_number = 7 
 
 pygame.init()
 game_sc = pygame.display.set_mode(GAME_RES)
@@ -25,7 +25,9 @@ figures_pos = [[(-1, 0), (-2, 0), (0, 0), (1, 0)],
                [(0, 0), (-1, 0), (0, 1), (-1, -1)],
                [(0, 0), (0, -1), (0, 1), (-1, -1)],
                [(0, 0), (0, -1), (0, 1), (-1, -1)],
-               [(0, 0), (0, -1), (0, 1), (-1, 0)]]
+               [(0, 0), (0, -1), (0, 1), (-1, 0)],
+               [(0, 0), (-1, 0), (1, 0), (0, 1), (-1, -1)]]
+
 ## Змінюємоо координати фігур для того щоб вони зявились на нашій сітцій 
 ## Рухаємо все на середину Зміщуємо головну точку фігури на 1 вниз, щоб вона влазила 
 #figures = [[pygame.Rect( x + Shyryna // 2, y + 1, 1, 1) for x, y in fig_pos] for fig_pos in figures_pos]
@@ -37,6 +39,7 @@ figures = [[pygame.Rect( x + Shyryna // 2, y + 1, 1, 1) for x, y in fig_pos] for
 figure_rect = pygame.Rect(0, 0, Klitynka - 2, Klitynka - 2)
 ### Викликаємо Фігури які в нас є ( 7 штук )
 figure = figures[figure_number]
+
 ###################################### NEW #####################################
 ################################################################################
 while True:
@@ -50,7 +53,7 @@ while True:
     ###################################### NEW #####################################
     #draw_figure
     # Для кожного із кубіків фігури робимо наступні дії
-    for i in range(4):
+    for i in range(len(figure)):
         figure_rect.x = figure[i].x * Klitynka
         figure_rect.y = figure[i].y * Klitynka
         pygame.draw.rect(game_sc, kolir_klitynky, figure_rect)
