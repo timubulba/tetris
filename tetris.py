@@ -7,6 +7,9 @@ Klitynka = 25
 GAME_RES = Shyryna * Klitynka, Dovzhyna * Klitynka
 FPS = 60
 
+kolir_polia = pygame.Color('orange')
+kolir_klitynky = pygame.Color('blue')
+
 pygame.init()
 game_sc = pygame.display.set_mode(GAME_RES)
 clock = pygame.time.Clock()
@@ -35,7 +38,7 @@ figure = figures[5]
 ###################################### NEW #####################################
 ################################################################################
 while True:
-    game_sc.fill(pygame.Color('orange'))
+    game_sc.fill(kolir_polia)
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             exit()
@@ -48,7 +51,7 @@ while True:
     for i in range(4):
         figure_rect.x = figure[i].x * Klitynka
         figure_rect.y = figure[i].y * Klitynka
-        pygame.draw.rect(game_sc, pygame.Color('blue'), figure_rect)
+        pygame.draw.rect(game_sc, kolir_klitynky, figure_rect)
     ## Виклакаємо функцію малювання , ( задаємо розмір екрану, Встановлюємл колір фігур , Передаємо координати для малювання фігури )
     ###################################### NEW #####################################
     ################################################################################
