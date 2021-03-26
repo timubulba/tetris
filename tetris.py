@@ -10,6 +10,8 @@ FPS = 60
 kolir_polia = pygame.Color('orange')
 kolir_klitynky = pygame.Color('blue')
 
+figure_number = 5 
+
 pygame.init()
 game_sc = pygame.display.set_mode(GAME_RES)
 clock = pygame.time.Clock()
@@ -34,7 +36,7 @@ figures = [[pygame.Rect( x + Shyryna // 2, y + 1, 1, 1) for x, y in fig_pos] for
 # Rect( Віступ вліво, Вершина фігури (точка), Товщина, Висота)
 figure_rect = pygame.Rect(0, 0, Klitynka - 2, Klitynka - 2)
 ### Викликаємо Фігури які в нас є ( 7 штук )
-figure = figures[5]
+figure = figures[figure_number]
 ###################################### NEW #####################################
 ################################################################################
 while True:
