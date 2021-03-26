@@ -2,7 +2,7 @@
 
 import pygame
 
-Shyryna, Dovzhyna = 10, 20
+Shyryna, Dovzhyna = 14, 28
 TITLE = 30
 GAME_RES = Shyryna * TITLE, Dovzhyna * TITLE
 FPS = 60
