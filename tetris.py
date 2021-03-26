@@ -2,14 +2,14 @@
 
 import pygame
 
-W, H = 10, 20
+Shyryna, Dovzhyna = 10, 20
 TITLE = 30
-GAME_RES = W * TITLE, H * TITLE
+GAME_RES = Shyryna * TITLE, Dovzhyna * TITLE
 FPS = 60
 pygame.init()
 game_sc = pygame.display.set_mode(GAME_RES)
 clock = pygame.time.Clock()
-grid = [pygame.Rect(x * TITLE, y * TITLE, TITLE, TITLE) for x in range(W) for y in range (H)]
+grid = [pygame.Rect(x * TITLE, y * TITLE, TITLE, TITLE) for x in range(Shyryna) for y in range (Dovzhyna)]
 ################################################################################
 ###################################### NEW ######################################
 ### Создаем Координати фигур 
@@ -22,9 +22,9 @@ figures_pos = [[(-1, 0), (-2, 0), (0, 0), (1, 0)],
                [(0, 0), (0, -1), (0, 1), (-1, 0)]]
 ## Змінюємоо координати фігур для того щоб вони зявились на нашій сітцій 
 ## Рухаємо все на середину Зміщуємо головну точку фігури на 1 вниз, щоб вона влазила 
-#figures = [[pygame.Rect( x + W // 2, y + 1, 1, 1) for x, y in fig_pos] for fig_pos in figures_pos]
+#figures = [[pygame.Rect( x + Shyryna // 2, y + 1, 1, 1) for x, y in fig_pos] for fig_pos in figures_pos]
 ## Rect(left, top, width, height)
-figures = [[pygame.Rect( x + W // 2, y + 1, 1, 1) for x, y in fig_pos] for fig_pos in figures_pos]
+figures = [[pygame.Rect( x + Shyryna // 2, y + 1, 1, 1) for x, y in fig_pos] for fig_pos in figures_pos]
 ## Устанавлюєм первоначальну точку 
 # Rect(left, top, width, height)
 # Rect( Віступ вліво, Вершина фігури (точка), Товщина, Висота)
