@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 
 import pygame
+from copy import deepcopy
 
 Shyryna, Dovzhyna = 14, 28
 Klitynka = 25
@@ -10,7 +11,7 @@ FPS = 60
 kolir_polia = pygame.Color('orange')
 kolir_klitynky = pygame.Color('blue')
 
-figure_number = 7 
+figure_number = 1 
 
 pygame.init()
 game_sc = pygame.display.set_mode(GAME_RES)
@@ -38,15 +39,31 @@ figures = [[pygame.Rect( x + Shyryna // 2, y + 1, 1, 1) for x, y in fig_pos] for
 # Rect( Віступ вліво, Вершина фігури (точка), Товщина, Висота)
 figure_rect = pygame.Rect(0, 0, Klitynka - 2, Klitynka - 2)
 ### Викликаємо Фігури які в нас є ( 7 штук )
-figure = figures[figure_number]
+figure = deepcopy(figures[figure_number])
 
 ###################################### NEW #####################################
 ################################################################################
 while True:
+
+    dx = 0
+
     game_sc.fill(kolir_polia)
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             exit()
+        elif event.type == pygame.KEYDOWN:
+            if event.key == pygame.K_LEFT:
+                dx = -1
+            elif event.key == pygame.K_RIGHT:
+                dx = 1
+
+    figure_old = deepcopy(figure)
+    for i in range(len(figure)):
+        figure[i].x += dx
+        if figure[i].x < 0 or figure[i].x >= Shyryna:
+            figure = figure_old
+            break
+    
     #draw_grid
     [pygame.draw.rect(game_sc, (40, 40, 40), i_rect, 1) for i_rect in grid]
     ################################################################################
