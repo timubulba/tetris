@@ -6,7 +6,7 @@ from copy import deepcopy
 Shyryna, Dovzhyna = 14, 28
 Klitynka = 25
 GAME_RES = Shyryna * Klitynka, Dovzhyna * Klitynka
-FPS = 60
+FPS = 1
 
 kolir_polia = pygame.Color('orange')
 kolir_klitynky = pygame.Color('blue')
@@ -60,7 +60,7 @@ while True:
     figure_old = deepcopy(figure)
     for i in range(len(figure)):
         figure[i].x += dx
-        if figure[i].x < 0 or figure[i].x >= Shyryna:
+        if figure[i].x < 1 or figure[i].x >= Shyryna - 1:
             figure = figure_old
             break
     
@@ -78,3 +78,4 @@ while True:
     ###################################### NEW #####################################
     ################################################################################
     pygame.display.flip()
+    clock.tick(FPS)
