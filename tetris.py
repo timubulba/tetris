@@ -54,6 +54,8 @@ while True:
             elif event.key == pygame.K_RIGHT:
                 dx = 1
 
+    print(f'dx = {dx}')
+
     figure_old = deepcopy(figure)
     for i in range(len(figure)):
         figure[i].x += dx
