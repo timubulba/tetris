@@ -1,14 +1,16 @@
 #!/usr/bin/env python
+"""Tetris game using pygame."""
 
-import pygame
 from copy import deepcopy
+import sys
+import pygame
 
 W, H = 14, 28
 TILE = 25
 GAME_RES = W * TILE, H * TILE
 FPS = 1
 
-figure_number = 1 
+figure_number = 1
 
 pygame.init()
 game_sc = pygame.display.set_mode(GAME_RES)
@@ -26,8 +28,8 @@ figures_pos = [[(-1, 0), (-2, 0), (0, 0), (1, 0)],
                [(0, 0), (0, -1), (0, 1), (-1, 0)],
                [(0, 0), (-1, 0), (1, 0), (0, 1), (-1, -1)]]
 
-## Змінюємоо координати фігур для того щоб вони зявились на нашій сітцій 
-## Рухаємо все на середину Зміщуємо головну точку фігури на 1 вниз, щоб вона влазила 
+## Змінюємоо координати фігур для того щоб вони зявились на нашій сітцій
+## Рухаємо все на середину Зміщуємо головну точку фігури на 1 вниз, щоб вона влазила
 #figures = [[pygame.Rect( x + Shyryna // 2, y + 1, 1, 1) for x, y in fig_pos] for fig_pos in figures_pos]
 ## Rect(left, top, width, height)
 figures = [[pygame.Rect( x + W // 2, y + 1, 1, 1) for x, y in fig_pos] for fig_pos in figures_pos]
@@ -47,14 +49,12 @@ while True:
     game_sc.fill(pygame.Color('orange'))
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
-            exit()
+            sys.exit()
         elif event.type == pygame.KEYDOWN:
             if event.key == pygame.K_LEFT:
                 dx = -1
             elif event.key == pygame.K_RIGHT:
                 dx = 1
-
-    print(f'dx = {dx}')
 
     figure_old = deepcopy(figure)
     for i in range(len(figure)):
@@ -62,7 +62,11 @@ while True:
         if figure[i].x < 1 or figure[i].x >= TILE - 1:
             figure = figure_old
             break
-    
+
+    #falling down
+    for i in range(len(figure)):
+        figure[i].y += 1
+
     #draw_grid
     [pygame.draw.rect(game_sc, (40, 40, 40), i_rect, 1) for i_rect in grid]
     ################################################################################
