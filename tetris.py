@@ -8,7 +8,7 @@ import pygame
 W, H = 14, 28
 TILE = 25
 GAME_RES = W * TILE, H * TILE
-FPS = 1
+FPS = 60
 
 figure_number = 1
 
@@ -40,6 +40,10 @@ figure_rect = pygame.Rect(0, 0, TILE - 2, TILE - 2)
 ### Викликаємо Фігури які в нас є ( 7 штук )
 figure = deepcopy(figures[figure_number])
 
+speed = 1
+animation_limit = 60
+animation_count = 0
+
 ###################################### NEW #####################################
 ################################################################################
 while True:
@@ -55,17 +59,26 @@ while True:
                 dx = -1
             elif event.key == pygame.K_RIGHT:
                 dx = 1
+            elif event.key == pygame.K_DOWN:
+                animation_limit = 1
 
     figure_old = deepcopy(figure)
     for i in range(len(figure)):
         figure[i].x += dx
-        if figure[i].x < 1 or figure[i].x >= TILE - 1:
+        if figure[i].x < 0 or figure[i].x > W - 1:
             figure = figure_old
             break
 
     #falling down
-    for i in range(len(figure)):
-        figure[i].y += 1
+    animation_count += speed
+    if animation_count > animation_limit:
+        animation_count = 0
+        for i in range(len(figure)):
+            figure[i].y += 1
+            animation_limit = 60
+            if figure[i].y > H - 1:
+                figure = figure_old
+                break
 
     #draw_grid
     [pygame.draw.rect(game_sc, (40, 40, 40), i_rect, 1) for i_rect in grid]
