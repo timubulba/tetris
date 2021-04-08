@@ -40,7 +40,7 @@ figure_rect = pygame.Rect(0, 0, TILE - 2, TILE - 2)
 ### Викликаємо Фігури які в нас є ( 7 штук )
 figure = deepcopy(figures[figure_number])
 
-speed = 1
+animation_speed = 1
 animation_limit = 60
 animation_count = 0
 
@@ -70,7 +70,7 @@ while True:
             break
 
     #falling down
-    animation_count += speed
+    animation_count += animation_speed
     if animation_count > animation_limit:
         animation_count = 0
         for i in range(len(figure)):
