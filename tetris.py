@@ -4,13 +4,12 @@
 from copy import deepcopy
 import sys
 import pygame
+import random
 
 W, H = 14, 28
 TILE = 25
 GAME_RES = W * TILE, H * TILE
 FPS = 60
-
-figure_number = 1
 
 pygame.init()
 game_sc = pygame.display.set_mode(GAME_RES)
@@ -34,15 +33,25 @@ figures_pos = [[(-1, 0), (-2, 0), (0, 0), (1, 0)],
 ## Rect(left, top, width, height)
 figures = [[pygame.Rect( x + W // 2, y + 1, 1, 1) for x, y in fig_pos] for fig_pos in figures_pos]
 ## Устанавлюєм первоначальну точку 
-# Rect(left, top, width, height)
-# Rect( Віступ вліво, Вершина фігури (точка), Товщина, Висота)
+
+field = [[None for c in range(W)] for r in range(H)]
+
 figure_rect = pygame.Rect(0, 0, TILE - 2, TILE - 2)
-### Викликаємо Фігури які в нас є ( 7 штук )
-figure = deepcopy(figures[figure_number])
+### Вfigure_rectикликаємо Фігури які в нас є ( 7 штук )
+figure = deepcopy(random.choice(figures))
 
 animation_speed = 1
 animation_limit = 60
 animation_count = 0
+
+def hit_borders(x, y):
+    if x < 0 or x > W - 1:
+        return True
+    if y > H - 1:
+        return True
+    if field[y][x]:
+        return True
+    return False
 
 ###################################### NEW #####################################
 ################################################################################
@@ -65,7 +74,7 @@ while True:
     figure_old = deepcopy(figure)
     for i in range(len(figure)):
         figure[i].x += dx
-        if figure[i].x < 0 or figure[i].x > W - 1:
+        if hit_borders(figure[i].x, figure[i].y):
             figure = figure_old
             break
 
@@ -76,22 +85,29 @@ while True:
         for i in range(len(figure)):
             figure[i].y += 1
             animation_limit = 60
-            if figure[i].y > H - 1:
-                figure = figure_old
+            if hit_borders(figure[i].x, figure[i].y):
+                for j in range(len(figure_old)):
+                    field[figure_old[j].y][figure_old[j].x] = pygame.Color('grey')
+                figure = deepcopy(random.choice(figures))
                 break
 
     #draw_grid
     [pygame.draw.rect(game_sc, (40, 40, 40), i_rect, 1) for i_rect in grid]
-    ################################################################################
-    ###################################### NEW #####################################
+
     #draw_figure
-    # Для кожного із кубіків фігури робимо наступні дії
     for i in range(len(figure)):
         figure_rect.x = figure[i].x * TILE
         figure_rect.y = figure[i].y * TILE
         pygame.draw.rect(game_sc, pygame.Color('blue'), figure_rect)
+
+    # Draw field
+    for y, row in enumerate(field):
+        for x, col in enumerate(row):
+            if col:
+                figure_rect.x = x * TILE
+                figure_rect.y = y * TILE
+                pygame.draw.rect(game_sc, col, figure_rect)
+
     ## Виклакаємо функцію малювання , ( задаємо розмір екрану, Встановлюємл колір фігур , Передаємо координати для малювання фігури )
-    ###################################### NEW #####################################
-    ################################################################################
     pygame.display.flip()
     clock.tick(FPS)
