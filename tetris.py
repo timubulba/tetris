@@ -58,6 +58,7 @@ def hit_borders(x, y):
 while True:
 
     dx = 0
+    rotation = False
 
     game_sc.fill(pygame.Color('orange'))
     for event in pygame.event.get():
@@ -68,20 +69,24 @@ while True:
                 dx = -1
             elif event.key == pygame.K_RIGHT:
                 dx = 1
-            elif event.key == pygame.K_DOWN:
+            if event.key == pygame.K_DOWN:
                 animation_limit = 1
+            if event.key == pygame.K_UP:
+                rotation = True
 
     figure_old = deepcopy(figure)
-    for i in range(len(figure)):
-        figure[i].x += dx
-        if hit_borders(figure[i].x, figure[i].y):
-            figure = figure_old
-            break
+    if dx:
+        for i in range(len(figure)):
+            figure[i].x += dx
+            if hit_borders(figure[i].x, figure[i].y):
+                figure = figure_old
+                break
 
     #falling down
     animation_count += animation_speed
     if animation_count > animation_limit:
         animation_count = 0
+        figure_old = deepcopy(figure)
         for i in range(len(figure)):
             figure[i].y += 1
             animation_limit = 60
@@ -89,6 +94,18 @@ while True:
                 for j in range(len(figure_old)):
                     field[figure_old[j].y][figure_old[j].x] = pygame.Color('grey')
                 figure = deepcopy(random.choice(figures))
+                break
+
+    if rotation:
+        figure_old = deepcopy(figure)
+        center = figure[0]
+        for i in range(1, len(figure)):
+            x = figure[i].x - center.x
+            y = figure[i].y - center.y
+            figure[i].x = center.x + y
+            figure[i].y = center.y - x
+            if hit_borders(figure[i].x, figure[i].y):
+                figure = figure_old
                 break
 
     #draw_grid
