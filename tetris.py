@@ -89,11 +89,11 @@ while True:
         figure_old = deepcopy(figure)
         for i in range(len(figure)):
             figure[i].y += 1
-            animation_limit = 60
             if hit_borders(figure[i].x, figure[i].y):
                 for j in range(len(figure_old)):
                     field[figure_old[j].y][figure_old[j].x] = pygame.Color('grey')
                 figure = deepcopy(random.choice(figures))
+                animation_limit = 60
                 break
 
     if rotation:
