@@ -75,6 +75,9 @@ def hit_borders(x, y):
         return True
     if y > H - 1:
         return True
+    # Explicitly allow going above the field
+    if y < 0:
+        return False
     if field[y][x]:
         return True
     return False
