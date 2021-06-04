@@ -6,7 +6,7 @@ import sys
 import pygame
 import random
 
-W, H = 14, 28
+W, H = 10, 20
 TILE = 25
 GAME_RES = W * TILE, H * TILE
 FPS = 60
@@ -24,8 +24,7 @@ figures_pos = [[(-1, 0), (-2, 0), (0, 0), (1, 0)],
                [(0, 0), (-1, 0), (0, 1), (-1, -1)],
                [(0, 0), (0, -1), (0, 1), (-1, -1)],
                [(0, 0), (0, -1), (0, 1), (-1, -1)],
-               [(0, 0), (0, -1), (0, 1), (-1, 0)],
-               [(0, 0), (-1, 0), (1, 0), (0, 1), (-1, -1)]]
+               [(0, 0), (0, -1), (0, 1), (-1, 0)]]
 
 ## Змінюємоо координати фігур для того щоб вони зявились на нашій сітцій
 ## Рухаємо все на середину Зміщуємо головну точку фігури на 1 вниз, щоб вона влазила
@@ -34,21 +33,51 @@ figures_pos = [[(-1, 0), (-2, 0), (0, 0), (1, 0)],
 figures = [[pygame.Rect( x + W // 2, y + 1, 1, 1) for x, y in fig_pos] for fig_pos in figures_pos]
 ## Устанавлюєм первоначальну точку 
 
-field = [[None for c in range(W)] for r in range(H)]
+
+def empty_lines(height):
+    return [[None for c in range(W)] for r in range(height)]
+
+
+field = empty_lines(H)
+
+
+# Look through the field and get rid of full rows
+def check_complete(field):
+    # The sorted list of row numbers to remove
+    to_destroy = []
+
+    # Collect full lines
+    for y in range(H-1, -1, -1):
+        if None not in field[y]:
+            to_destroy.append(y)
+
+    if not to_destroy:
+        return field
+
+    # Delete the full lines
+    for y in to_destroy:
+        del(field[y])
+
+    # Append the necessary count of empty lines at the top
+    return empty_lines(H - len(field)) + field
+
 
 figure_rect = pygame.Rect(0, 0, TILE - 2, TILE - 2)
-### Вfigure_rectикликаємо Фігури які в нас є ( 7 штук )
 figure = deepcopy(random.choice(figures))
 
 animation_speed = 1
 animation_limit = 60
 animation_count = 0
 
+
 def hit_borders(x, y):
     if x < 0 or x > W - 1:
         return True
     if y > H - 1:
         return True
+    # Explicitly allow going above the field
+    if y < 0:
+        return False
     if field[y][x]:
         return True
     return False
@@ -92,6 +121,7 @@ while True:
             if hit_borders(figure[i].x, figure[i].y):
                 for j in range(len(figure_old)):
                     field[figure_old[j].y][figure_old[j].x] = pygame.Color('grey')
+                field = check_complete(field)
                 figure = deepcopy(random.choice(figures))
                 animation_limit = 60
                 break
